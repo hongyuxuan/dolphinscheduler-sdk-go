@@ -8,7 +8,6 @@ import (
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/core/errorx"
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/core/option"
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/types"
-	typesv2 "github.com/hongyuxuan/dolphinscheduler-sdk-go/types/v2"
 	"github.com/imroc/req/v3"
 )
 
@@ -24,12 +23,12 @@ func NewEnv(c *config.Config) *Environment {
 	}
 }
 
-func (w *Environment) List(ctx context.Context, opts ...option.ListOptionFunc) (resp *typesv2.EnvironmentList, err error) {
+func (w *Environment) List(ctx context.Context, opts ...option.ListOptionFunc) (resp *types.EnvironmentList, err error) {
 	option := make(types.ListOption)
 	for _, opt := range opts {
 		opt(&option)
 	}
-	var res *typesv2.ListEnvironmentResponse
+	var res *types.ListEnvironmentResponse
 	if err = w.httpclient.Get("/environment/list-paging").
 		SetHeader("token", w.config.AdminToken).
 		SetQueryParams(option).

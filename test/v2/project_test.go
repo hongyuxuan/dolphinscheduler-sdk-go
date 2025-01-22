@@ -16,7 +16,7 @@ func init() {
 	client = ds.NewClientV2(
 		// option.WithDebug(true),
 		option.WithBaseUrl("http://<dolphinscheduler_host>/dolphinscheduler"),
-		option.WithToken("365adefd2fac542d43cfde4103f52cdd"))
+		option.WithToken("<your_token>"))
 }
 
 func TestListProject(t *testing.T) {

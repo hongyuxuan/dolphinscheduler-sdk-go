@@ -8,7 +8,6 @@ import (
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/core/errorx"
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/core/option"
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/types"
-	typesv2 "github.com/hongyuxuan/dolphinscheduler-sdk-go/types/v2"
 	"github.com/imroc/req/v3"
 )
 
@@ -24,12 +23,12 @@ func NewWG(c *config.Config) *WarningGroup {
 	}
 }
 
-func (w *WarningGroup) List(ctx context.Context, opts ...option.ListOptionFunc) (resp *typesv2.WarningGroupList, err error) {
+func (w *WarningGroup) List(ctx context.Context, opts ...option.ListOptionFunc) (resp *types.WarningGroupList, err error) {
 	option := make(types.ListOption)
 	for _, opt := range opts {
 		opt(&option)
 	}
-	var res *typesv2.ListWarningGroupResponse
+	var res *types.ListWarningGroupResponse
 	if err = w.httpclient.Get("/alert-groups").
 		SetHeader("token", w.config.AdminToken).
 		SetQueryParams(option).

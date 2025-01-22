@@ -37,7 +37,7 @@ func (p *ProcessDefinition) ParseJsonFile(filepath string) (resp *typesv2.Export
 	defer f.Close()
 	content, err := io.ReadAll(f)
 	if err = json.Unmarshal(content, &resp); err != nil {
-		return nil, errorx.NewDefaultError("error parsing file %s to github.com/hongyuxuan/dolphinscheduler-sdk-go/types.ExportProcessDef: %v", filepath, err)
+		return nil, errorx.NewDefaultError("error parsing file %s to v2.ExportProcessDef: %v", filepath, err)
 	}
 	return
 }
@@ -118,7 +118,7 @@ func (p *ProcessDefinition) GetByName(ctx context.Context, processName string) (
 // option.WithTaskRelationJson(string),
 // option.WithTenantCode(*string)
 func (p *ProcessDefinition) Modify(ctx context.Context, opts ...option.ProcessDefinitionOptionFunc) (err error) {
-	option := make(typesv2.ProcessDefinitionOption)
+	option := make(types.ProcessDefinitionOption)
 	for _, opt := range opts {
 		opt(&option)
 	}
@@ -140,7 +140,7 @@ func (p *ProcessDefinition) Modify(ctx context.Context, opts ...option.ProcessDe
 // option.WithSchedule(string),
 // option.WithGlobalParams(string)
 func (p *ProcessDefinition) ModifyBasicInfo(ctx context.Context, opts ...option.ProcessDefinitionOptionFunc) (err error) {
-	option := make(typesv2.ProcessDefinitionOption)
+	option := make(types.ProcessDefinitionOption)
 	for _, opt := range opts {
 		opt(&option)
 	}

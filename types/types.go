@@ -16,3 +16,5 @@ type CommonResponse struct {
 	Msg     string `json:"msg"`
 	Success bool   `json:"success"`
 }
+
+type ProcessDefinitionOption map[string]string

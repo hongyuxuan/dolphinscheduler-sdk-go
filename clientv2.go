@@ -9,6 +9,7 @@ import (
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/config"
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/core/errorx"
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/core/option"
+	datasourcev2 "github.com/hongyuxuan/dolphinscheduler-sdk-go/service/datasource/v2"
 	projectv2 "github.com/hongyuxuan/dolphinscheduler-sdk-go/service/project/v2"
 	resourcev2 "github.com/hongyuxuan/dolphinscheduler-sdk-go/service/resource/v2"
 	securityv2 "github.com/hongyuxuan/dolphinscheduler-sdk-go/service/security/v2"
@@ -77,6 +78,10 @@ func (c *ClientV2) Project(projectCode *int64) *projectv2.Project {
 
 func (c *ClientV2) Resource() *resourcev2.Resource {
 	return resourcev2.New(c.Config)
+}
+
+func (c *ClientV2) Datasource() *datasourcev2.Datasource {
+	return datasourcev2.New(c.Config)
 }
 
 func (c *ClientV2) WarningGroup() *securityv2.WarningGroup {

@@ -8,7 +8,6 @@ import (
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/core/errorx"
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/core/option"
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/types"
-	typesv2 "github.com/hongyuxuan/dolphinscheduler-sdk-go/types/v2"
 	"github.com/imroc/req/v3"
 )
 
@@ -24,12 +23,12 @@ func NewTenant(c *config.Config) *Tenant {
 	}
 }
 
-func (t *Tenant) List(ctx context.Context, opts ...option.ListOptionFunc) (resp *typesv2.TenantList, err error) {
+func (t *Tenant) List(ctx context.Context, opts ...option.ListOptionFunc) (resp *types.TenantList, err error) {
 	option := make(types.ListOption)
 	for _, opt := range opts {
 		opt(&option)
 	}
-	var res *typesv2.ListTenantResponse
+	var res *types.ListTenantResponse
 	if err = t.httpclient.Get("/tenants").
 		SetHeader("token", t.config.AdminToken).
 		SetQueryParams(option).

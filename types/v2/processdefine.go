@@ -67,67 +67,39 @@ type TaskRelation struct {
 }
 
 type TaskDefinition struct {
-	Id                    int64             `json:"id"`
-	Code                  int64             `json:"code"`
-	Name                  string            `json:"name"`
-	Version               int64             `json:"version"`
-	Description           string            `json:"description"`
-	ProjectCode           int64             `json:"projectCode"`
-	UserId                int64             `json:"userId"`
-	TaskType              string            `json:"taskType"`
-	TaskParams            *TaskParams       `json:"taskParams"`
-	TaskParamList         []Params          `json:"taskParamList"`
-	TaskParamMap          map[string]string `json:"taskParamMap"`
-	Flag                  string            `json:"flag"`
-	TaskPriority          string            `json:"taskPriority"`
-	UserName              *string           `json:"userName"`
-	ProjectName           *string           `json:"projectName"`
-	WorkerGroup           string            `json:"workerGroup"`
-	EnvironmentCode       int64             `json:"environmentCode"`
-	FailRetryTimes        int64             `json:"failRetryTimes"`
-	FailRetryInterval     int64             `json:"failRetryInterval"`
-	TimeoutFlag           string            `json:"timeoutFlag"`
-	TimeoutNotifyStrategy string            `json:"timeoutNotifyStrategy"`
-	Timeout               int64             `json:"timeout"`
-	DelayTime             int64             `json:"delayTime"`
-	ResourceIds           string            `json:"resourceIds"`
-	CreateTime            string            `json:"createTime"`
-	UpdateTime            string            `json:"updateTime"`
-	ModifyBy              *string           `json:"modifyBy"`
-	Operator              int64             `json:"operator"`
-	OperateTime           string            `json:"operateTime"`
+	Id                    int64                  `json:"id"`
+	Code                  int64                  `json:"code"`
+	Name                  string                 `json:"name"`
+	Version               int64                  `json:"version"`
+	Description           string                 `json:"description"`
+	ProjectCode           int64                  `json:"projectCode"`
+	UserId                int64                  `json:"userId"`
+	TaskType              string                 `json:"taskType"`
+	TaskParams            map[string]interface{} `json:"taskParams"`
+	TaskParamList         []Params               `json:"taskParamList"`
+	TaskParamMap          map[string]string      `json:"taskParamMap"`
+	Flag                  string                 `json:"flag"`
+	TaskPriority          string                 `json:"taskPriority"`
+	UserName              *string                `json:"userName"`
+	ProjectName           *string                `json:"projectName"`
+	WorkerGroup           string                 `json:"workerGroup"`
+	EnvironmentCode       int64                  `json:"environmentCode"`
+	FailRetryTimes        int64                  `json:"failRetryTimes"`
+	FailRetryInterval     int64                  `json:"failRetryInterval"`
+	TimeoutFlag           string                 `json:"timeoutFlag"`
+	TimeoutNotifyStrategy string                 `json:"timeoutNotifyStrategy"`
+	Timeout               int64                  `json:"timeout"`
+	DelayTime             int64                  `json:"delayTime"`
+	ResourceIds           string                 `json:"resourceIds"`
+	CreateTime            string                 `json:"createTime"`
+	UpdateTime            string                 `json:"updateTime"`
+	ModifyBy              *string                `json:"modifyBy"`
+	Operator              int64                  `json:"operator"`
+	OperateTime           string                 `json:"operateTime"`
 }
 
-type TaskParams struct {
-	ProcessDefinitionCode int64 `json:"processDefinitionCode"`
-	ResourceList          []struct {
-		Id int64 `json:"id"`
-	} `json:"resourceList,omitempty"`
-	LocalParams        []Params          `json:"localParams"`
-	HttpParams         map[string]string `json:"httpParams,omitempty"`
-	Url                string            `json:"url,omitempty"`
-	RawScript          string            `json:"rawScript,omitempty"`
-	HttpMethod         string            `json:"httpMethod,omitempty"`
-	HttpCheckCondition string            `json:"httpCheckCondition,omitempty"`
-	Condition          string            `json:"condition,omitempty"`
-	ConnectTimeout     int64             `json:"connectTimeout,omitempty"`
-	SocketTimeout      int64             `json:"socketTimeout,omitempty"`
-	Dependence         struct {
-		DependTaskList []*DependTask `json:"dependTaskList"`
-		Relation       string        `json:"relation"`
-	} `json:"dependence"`
-	ConditionResult struct {
-		SuccessNode []map[string]interface{} `json:"successNode"`
-		FailedNode  []map[string]interface{} `json:"failedNode"`
-	} `json:"conditionResult"`
-	WaitStartTimeout map[string]interface{} `json:"waitStartTimeout"`
-	SwitchResult     *SwitchResult          `json:"switchResult"`
-}
-
-type HttpParams struct {
-	Prop               string `json:"prop"`
-	HttpParametersType string `json:"httpParametersType"`
-	Value              string `json:"value"`
+type ResourceList struct {
+	Id int64 `json:"id"`
 }
 
 type DependTask struct {
@@ -217,5 +189,3 @@ func (p *ProcessDef) ToJsonStringPretty() string {
 	b, _ := json.MarshalIndent(p, "", "  ")
 	return string(b)
 }
-
-type ProcessDefinitionOption map[string]string
