@@ -27,10 +27,10 @@ type SuiteTestProcessDefinition struct {
 func (s *SuiteTestProcessDefinition) SetupSuite() {
 	s.client = ds.NewClientV3(
 		// option.WithDebug(true),
-		option.WithBaseUrl("http://dolphinscheduler_host/dolphinscheduler"),
+		option.WithBaseUrl("http://<dolphinscheduler_host>/dolphinscheduler"),
 		option.WithToken("<your_token>"))
-	s.filepath = "workflow_1737365074392.json"
-	s.projectCode = 129136205014144
+	s.filepath = "/root/workflow.json"
+	s.projectCode = 128869683708960
 	s.tenantMap = make(map[int64]string)
 }
 
@@ -38,7 +38,17 @@ func (s *SuiteTestProcessDefinition) Test1ParseJsonFile() {
 	var err error
 	s.exportProcessDef, err = s.client.Project(nil).ProcessDefinition(nil).ParseJsonFile(s.filepath)
 	s.Nil(err)
-	fmt.Println(s.exportProcessDef.ToJsonStringPretty())
+	for _, processDef := range *s.exportProcessDef {
+		for _, taskDef := range processDef.TaskDefinitionList {
+			if taskDef.TaskType == "CONDITIONS" {
+				b, _ := json.Marshal(taskDef.TaskParams["dependence"])
+				var dependence typesv3.Dependence
+				err := json.Unmarshal(b, &dependence)
+				s.Nil(err)
+				fmt.Printf("%+v\n", dependence)
+			}
+		}
+	}
 }
 
 func (s *SuiteTestProcessDefinition) Test2ImportBytes() {

@@ -107,14 +107,34 @@ type ResourceList struct {
 	ResourceName string `json:"resourceName"`
 }
 
-type DependTask struct {
+type SwitchDependTask struct {
 	Condition string `json:"condition"`
 	NextNode  int64  `json:"nextNode"`
 }
 
 type SwitchResult struct {
-	DependTaskList []*DependTask `json:"dependTaskList"`
-	NextNode       int64         `json:"nextNode"`
+	DependTaskList []*SwitchDependTask `json:"dependTaskList"`
+	NextNode       int64               `json:"nextNode"`
+}
+
+type Dependence struct {
+	Relation       string                 `json:"relation"`
+	DependTaskList []*ConditionDependTask `json:"dependTaskList"`
+}
+
+type ConditionDependTask struct {
+	DependItemList []*ConditionDependItem `json:"dependItemList"`
+	Relation       string                 `json:"relation"`
+}
+
+type ConditionDependItem struct {
+	DepTaskCode int64  `json:"depTaskCode"`
+	Status      string `json:"status"`
+}
+
+type ConditionResult struct {
+	SuccessNode []int64 `json:"successNode"`
+	FailedNode  []int64 `json:"failedNode"`
 }
 
 type Schedule struct {
