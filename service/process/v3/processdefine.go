@@ -134,28 +134,6 @@ func (p *ProcessDefinition) Modify(ctx context.Context, opts ...option.ProcessDe
 	return
 }
 
-// opts:
-// option.WithProcessName(string),
-// option.WithTenantCode(*string),
-// option.WithSchedule(string),
-// option.WithGlobalParams(string)
-func (p *ProcessDefinition) ModifyBasicInfo(ctx context.Context, opts ...option.ProcessDefinitionOptionFunc) (err error) {
-	option := make(types.ProcessDefinitionOption)
-	for _, opt := range opts {
-		opt(&option)
-	}
-	var res *types.CommonResponse
-	if err = p.httpclient.Put(fmt.Sprintf("/projects/%d/process-definition/%d/basic-info", *p.projectCode, *p.processCode)).
-		SetFormData(option).
-		SetSuccessResult(&res).Do(ctx).Err; err != nil {
-		return
-	}
-	if res.Code != constant.ERR_OK {
-		return errorx.NewError(res.Code, res.Msg, nil)
-	}
-	return
-}
-
 func (p *ProcessDefinition) Release(ctx context.Context, processName, releaseState string) (err error) {
 	var res *types.CommonResponse
 	if err = p.httpclient.Post(fmt.Sprintf("/projects/%d/process-definition/%d/release", *p.projectCode, *p.processCode)).
@@ -184,6 +162,6 @@ func (p *ProcessDefinition) Delete(ctx context.Context) (err error) {
 	return nil
 }
 
-// func (p *ProcessDefinition) Schedule() *Schedule {
-// 	return NewSchedule(p.config, p.projectCode, p.processCode)
-// }
+func (p *ProcessDefinition) Schedule() *Schedule {
+	return NewSchedule(p.config, p.projectCode, p.processCode)
+}
