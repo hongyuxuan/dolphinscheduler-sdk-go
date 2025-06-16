@@ -1,4 +1,4 @@
-package v2
+package v3
 
 import (
 	"encoding/json"
@@ -35,10 +35,9 @@ type ProcessDefinition struct {
 	Locations            *string           `json:"locations"`
 	ScheduleReleaseState *string           `json:"scheduleReleaseState"`
 	Timeout              int64             `json:"timeout"`
-	TenantId             int64             `json:"tenantId"`
-	TenantCode           *string           `json:"tenantCode"`
 	ModifyBy             *string           `json:"modifyBy"`
 	WarningGroupId       int64             `json:"warningGroupId"`
+	ExecutionType        string            `json:"executionType"`
 }
 
 type Params struct {
@@ -79,6 +78,7 @@ type TaskDefinition struct {
 	TaskParamList         []Params               `json:"taskParamList"`
 	TaskParamMap          map[string]string      `json:"taskParamMap"`
 	Flag                  string                 `json:"flag"`
+	IsCache               string                 `json:"isCache"`
 	TaskPriority          string                 `json:"taskPriority"`
 	UserName              *string                `json:"userName"`
 	ProjectName           *string                `json:"projectName"`
@@ -90,16 +90,21 @@ type TaskDefinition struct {
 	TimeoutNotifyStrategy string                 `json:"timeoutNotifyStrategy"`
 	Timeout               int64                  `json:"timeout"`
 	DelayTime             int64                  `json:"delayTime"`
-	ResourceIds           string                 `json:"resourceIds"`
+	ResourceIds           *string                `json:"resourceIds"`
 	CreateTime            string                 `json:"createTime"`
 	UpdateTime            string                 `json:"updateTime"`
 	ModifyBy              *string                `json:"modifyBy"`
+	TaskGroupId           int64                  `json:"taskGroupId"`
+	TaskGroupPriority     int64                  `json:"taskGroupPriority"`
+	CpuQuota              int64                  `json:"cpuQuota"`
+	MemoryMax             int64                  `json:"memoryMax"`
+	TaskExecuteType       string                 `json:"taskExecuteType"`
 	Operator              int64                  `json:"operator"`
 	OperateTime           string                 `json:"operateTime"`
 }
 
 type ResourceList struct {
-	Id int64 `json:"id"`
+	ResourceName string `json:"resourceName"`
 }
 
 type SwitchDependTask struct {
@@ -152,6 +157,7 @@ type Schedule struct {
 	WarningGroupId          int64   `json:"warningGroupId"`
 	ProcessInstancePriority string  `json:"processInstancePriority"`
 	WorkerGroup             string  `json:"workerGroup"`
+	TenantCode              string  `json:"tenantCode"`
 	EnvironmentCode         int64   `json:"environmentCode"`
 }
 

@@ -1,4 +1,4 @@
-package v2
+package v3
 
 import (
 	"context"
@@ -11,26 +11,25 @@ import (
 	"github.com/imroc/req/v3"
 )
 
-type WarningGroup struct {
+type Datasource struct {
 	httpclient *req.Client
 	config     *config.Config
 }
 
-func NewWG(c *config.Config) *WarningGroup {
-	return &WarningGroup{
+func New(c *config.Config) *Datasource {
+	return &Datasource{
 		httpclient: c.Httpclient,
 		config:     c,
 	}
 }
 
-func (w *WarningGroup) List(ctx context.Context, opts ...option.ListOptionFunc) (resp *types.WarningGroupList, err error) {
+func (w *Datasource) List(ctx context.Context, opts ...option.ListOptionFunc) (resp *types.DatasourceList, err error) {
 	option := make(types.ListOption)
 	for _, opt := range opts {
 		opt(&option)
 	}
-	var res *types.ListWarningGroupResponse
-	if err = w.httpclient.Get("/alert-groups").
-		SetHeader("token", w.config.AdminToken).
+	var res *types.ListDatasourceResponse
+	if err = w.httpclient.Get("/datasources").
 		SetQueryParams(option).
 		SetSuccessResult(&res).Do(ctx).Err; err != nil {
 		return

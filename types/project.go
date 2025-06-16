@@ -1,9 +1,7 @@
-package v2
+package types
 
 import (
 	"encoding/json"
-
-	types "github.com/hongyuxuan/dolphinscheduler-sdk-go/types"
 )
 
 type Project struct {
@@ -21,7 +19,7 @@ type Project struct {
 }
 
 type ListProjectResponse struct {
-	types.CommonResponse
+	CommonResponse
 	Data ProjectList `json:"data"`
 }
 

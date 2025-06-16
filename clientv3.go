@@ -9,18 +9,19 @@ import (
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/config"
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/core/errorx"
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/core/option"
-	datasourcev2 "github.com/hongyuxuan/dolphinscheduler-sdk-go/service/datasource/v2"
-	projectv2 "github.com/hongyuxuan/dolphinscheduler-sdk-go/service/project/v2"
-	resourcev2 "github.com/hongyuxuan/dolphinscheduler-sdk-go/service/resource/v2"
-	securityv2 "github.com/hongyuxuan/dolphinscheduler-sdk-go/service/security/v2"
+
+	datasourcev3 "github.com/hongyuxuan/dolphinscheduler-sdk-go/service/datasource/v3"
+	projectv3 "github.com/hongyuxuan/dolphinscheduler-sdk-go/service/project/v3"
+	resourcev3 "github.com/hongyuxuan/dolphinscheduler-sdk-go/service/resource/v3"
+	securityv3 "github.com/hongyuxuan/dolphinscheduler-sdk-go/service/security/v3"
 	"github.com/imroc/req/v3"
 )
 
-type ClientV2 struct {
+type ClientV3 struct {
 	Config *config.Config
 }
 
-func NewClientV2(opts ...option.ClientOptionFunc) *ClientV2 {
+func NewClientV3(opts ...option.ClientOptionFunc) *ClientV3 {
 	config := &config.Config{
 		Header: make(map[string]string),
 	}
@@ -67,31 +68,31 @@ func NewClientV2(opts ...option.ClientOptionFunc) *ClientV2 {
 	}
 	config.Httpclient = httpclient
 
-	return &ClientV2{
+	return &ClientV3{
 		Config: config,
 	}
 }
 
-func (c *ClientV2) Project(projectCode *int64) *projectv2.Project {
-	return projectv2.New(c.Config, projectCode)
+func (c *ClientV3) Project(projectCode *int64) *projectv3.Project {
+	return projectv3.New(c.Config, projectCode)
 }
 
-func (c *ClientV2) Resource() *resourcev2.Resource {
-	return resourcev2.New(c.Config)
+func (c *ClientV3) Resource() *resourcev3.Resource {
+	return resourcev3.New(c.Config)
 }
 
-func (c *ClientV2) Datasource() *datasourcev2.Datasource {
-	return datasourcev2.New(c.Config)
+func (c *ClientV3) Datasource() *datasourcev3.Datasource {
+	return datasourcev3.New(c.Config)
 }
 
-func (c *ClientV2) WarningGroup() *securityv2.WarningGroup {
-	return securityv2.NewWG(c.Config)
+func (c *ClientV3) WarningGroup() *securityv3.WarningGroup {
+	return securityv3.NewWG(c.Config)
 }
 
-func (c *ClientV2) Environment() *securityv2.Environment {
-	return securityv2.NewEnv(c.Config)
+func (c *ClientV3) Environment() *securityv3.Environment {
+	return securityv3.NewEnv(c.Config)
 }
 
-func (c *ClientV2) Tenant() *securityv2.Tenant {
-	return securityv2.NewTenant(c.Config)
+func (c *ClientV3) Tenant() *securityv3.Tenant {
+	return securityv3.NewTenant(c.Config)
 }

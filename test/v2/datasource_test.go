@@ -10,27 +10,26 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-type SuiteTestWarningGroup struct {
+type SuiteTestDatasource struct {
 	suite.Suite
 	client *ds.ClientV2
 }
 
-func (s *SuiteTestWarningGroup) SetupSuite() {
+func (s *SuiteTestDatasource) SetupSuite() {
 	s.client = ds.NewClientV2(
 		// option.WithDebug(true),
 		option.WithBaseUrl("http://<dolphinscheduler_host>/dolphinscheduler"),
-		option.WithToken("<your_token>"),
-		option.WithAdminToken("<your_admin_token>"))
+		option.WithToken("<your_token>"))
 }
 
-func (s *SuiteTestWarningGroup) Test1ListWarningGroup(t *testing.T) {
-	res, err := s.client.WarningGroup().List(context.Background(), option.WithPageNo(1), option.WithPageSize(10))
+func (s *SuiteTestDatasource) TestListDatasource() {
+	res, err := s.client.Datasource().List(context.Background(), option.WithPageNo(1), option.WithPageSize(10))
 	s.Nil(err)
 	if s.NotNil(res) {
 		fmt.Println(res.ToJsonStringPretty())
 	}
 }
 
-func TestSuiteWarningGroup(t *testing.T) {
-	suite.Run(t, new(SuiteTestWarningGroup))
+func TestSuiteDatasource(t *testing.T) {
+	suite.Run(t, new(SuiteTestDatasource))
 }

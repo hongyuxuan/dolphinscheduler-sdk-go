@@ -1,4 +1,4 @@
-package v2
+package v3
 
 import (
 	"context"
@@ -11,25 +11,25 @@ import (
 	"github.com/imroc/req/v3"
 )
 
-type WarningGroup struct {
+type Environment struct {
 	httpclient *req.Client
 	config     *config.Config
 }
 
-func NewWG(c *config.Config) *WarningGroup {
-	return &WarningGroup{
+func NewEnv(c *config.Config) *Environment {
+	return &Environment{
 		httpclient: c.Httpclient,
 		config:     c,
 	}
 }
 
-func (w *WarningGroup) List(ctx context.Context, opts ...option.ListOptionFunc) (resp *types.WarningGroupList, err error) {
+func (w *Environment) List(ctx context.Context, opts ...option.ListOptionFunc) (resp *types.EnvironmentList, err error) {
 	option := make(types.ListOption)
 	for _, opt := range opts {
 		opt(&option)
 	}
-	var res *types.ListWarningGroupResponse
-	if err = w.httpclient.Get("/alert-groups").
+	var res *types.ListEnvironmentResponse
+	if err = w.httpclient.Get("/environment/list-paging").
 		SetHeader("token", w.config.AdminToken).
 		SetQueryParams(option).
 		SetSuccessResult(&res).Do(ctx).Err; err != nil {

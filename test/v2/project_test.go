@@ -7,22 +7,32 @@ import (
 
 	ds "github.com/hongyuxuan/dolphinscheduler-sdk-go"
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/core/option"
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 )
 
-var client *ds.ClientV2
-
-func init() {
-	client = ds.NewClientV2(
-		// option.WithDebug(true),
-		option.WithBaseUrl("http://<dolphinscheduler_host>/dolphinscheduler"),
-		option.WithToken("365adefd2fac542d43cfde4103f52cdd"))
+type SuiteTestProject struct {
+	suite.Suite
+	client      *ds.ClientV2
+	projectCode int64
 }
 
-func TestListProject(t *testing.T) {
-	res, err := client.Project(nil).List(context.Background(), option.WithPageNo(1), option.WithPageSize(10), option.WithSearchVal("deploy"))
-	assert.Nil(t, err)
-	if assert.NotNil(t, res) {
+func (s *SuiteTestProject) SetupSuite() {
+	s.client = ds.NewClientV2(
+		// option.WithDebug(true),
+		option.WithBaseUrl("http://<dolphinscheduler_host>/dolphinscheduler"),
+		option.WithToken("<your_token>"),
+		option.WithAdminToken("<your_admin_token>"))
+	s.projectCode = 10457530170432
+}
+
+func (s *SuiteTestProject) Test1ListProject() {
+	res, err := s.client.Project(nil).List(context.Background(), option.WithPageNo(1), option.WithPageSize(10), option.WithSearchVal("deploy"))
+	s.Nil(err)
+	if s.NotNil(res) {
 		fmt.Println(res.ToJsonStringPretty())
 	}
+}
+
+func TestSuiteProject(t *testing.T) {
+	suite.Run(t, new(SuiteTestProject))
 }

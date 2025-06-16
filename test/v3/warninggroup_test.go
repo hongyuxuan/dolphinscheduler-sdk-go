@@ -10,27 +10,27 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-type SuiteTestEnvironment struct {
+type SuiteTestWarningGroup struct {
 	suite.Suite
-	client *ds.ClientV2
+	client *ds.ClientV3
 }
 
-func (s *SuiteTestEnvironment) SetupSuite() {
-	s.client = ds.NewClientV2(
-		option.WithDebug(true),
+func (s *SuiteTestWarningGroup) SetupSuite() {
+	s.client = ds.NewClientV3(
+		// option.WithDebug(true),
 		option.WithBaseUrl("http://<dolphinscheduler_host>/dolphinscheduler"),
 		option.WithToken("<your_token>"),
 		option.WithAdminToken("<your_admin_token>"))
 }
 
-func (s *SuiteTestEnvironment) Test1ListEnvironment() {
-	res, err := s.client.Environment().List(context.Background(), option.WithPageNo(1), option.WithPageSize(10))
+func (s *SuiteTestWarningGroup) TestListWarningGroup() {
+	res, err := s.client.WarningGroup().List(context.Background(), option.WithPageNo(1), option.WithPageSize(10))
 	s.Nil(err)
 	if s.NotNil(res) {
 		fmt.Println(res.ToJsonStringPretty())
 	}
 }
 
-func TestSuiteEnvironment(t *testing.T) {
-	suite.Run(t, new(SuiteTestEnvironment))
+func TestSuiteWarningGroup(t *testing.T) {
+	suite.Run(t, new(SuiteTestWarningGroup))
 }

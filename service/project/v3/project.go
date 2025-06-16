@@ -1,4 +1,4 @@
-package v2
+package v3
 
 import (
 	"context"
@@ -7,7 +7,7 @@ import (
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/core/constant"
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/core/errorx"
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/core/option"
-	processv2 "github.com/hongyuxuan/dolphinscheduler-sdk-go/service/process/v2"
+	processv3 "github.com/hongyuxuan/dolphinscheduler-sdk-go/service/process/v3"
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/types"
 	"github.com/imroc/req/v3"
 )
@@ -41,10 +41,10 @@ func (p *Project) List(ctx context.Context, opts ...option.ListOptionFunc) (resp
 	return &res.Data, nil
 }
 
-func (p *Project) ProcessDefinition(processCode *int64) *processv2.ProcessDefinition {
-	return processv2.NewProcessDefinition(p.config, p.projectCode, processCode)
+func (p *Project) ProcessDefinition(processCode *int64) *processv3.ProcessDefinition {
+	return processv3.NewProcessDefinition(p.config, p.projectCode, processCode)
 }
 
-func (p *Project) ProcessInstance(processCode *int64) *processv2.ProcessInstance {
-	return processv2.NewProcessInstance(p.config, p.projectCode, processCode)
+func (p *Project) ProcessInstance(processCode *int64) *processv3.ProcessInstance {
+	return processv3.NewProcessInstance(p.config, p.projectCode, processCode)
 }

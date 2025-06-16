@@ -16,8 +16,8 @@ func init() {
 	clientTenant = ds.NewClientV2(
 		// option.WithDebug(true),
 		option.WithBaseUrl("http://<dolphinscheduler_host>/dolphinscheduler"),
-		option.WithToken("365adefd2fac542d43cfde4103f52cdd"),
-		option.WithAdminToken("d7a4f25936bc25f24afe21705ecba337"))
+		option.WithToken("<your_token>"),
+		option.WithAdminToken("<your_admin_token>"))
 }
 
 func TestListTenant(t *testing.T) {
