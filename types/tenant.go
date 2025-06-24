@@ -1,9 +1,7 @@
-package v2
+package types
 
 import (
 	"encoding/json"
-
-	types "github.com/hongyuxuan/dolphinscheduler-sdk-go/types"
 )
 
 type Tenant struct {
@@ -17,7 +15,7 @@ type Tenant struct {
 }
 
 type ListTenantResponse struct {
-	types.CommonResponse
+	CommonResponse
 	Data TenantList `json:"data"`
 }
 

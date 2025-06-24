@@ -1,4 +1,4 @@
-package test_v2
+package main
 
 import (
 	"context"
@@ -10,29 +10,27 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-type SuiteTestProject struct {
+type SuiteTestTenant struct {
 	suite.Suite
-	client      *ds.ClientV2
-	projectCode int64
+	client *ds.ClientV3
 }
 
-func (s *SuiteTestProject) SetupSuite() {
-	s.client = ds.NewClientV2(
+func (s *SuiteTestTenant) SetupSuite() {
+	s.client = ds.NewClientV3(
 		// option.WithDebug(true),
 		option.WithBaseUrl("http://<dolphinscheduler_host>/dolphinscheduler"),
 		option.WithToken("<your_token>"),
 		option.WithAdminToken("<your_admin_token>"))
-	s.projectCode = 10457530170432
 }
 
-func (s *SuiteTestProject) Test1ListProject() {
-	res, err := s.client.Project(nil).List(context.Background(), option.WithPageNo(1), option.WithPageSize(10), option.WithSearchVal("deploy"))
+func (s *SuiteTestTenant) TestListTenant() {
+	res, err := s.client.Tenant().List(context.Background(), option.WithPageNo(1), option.WithPageSize(10), option.WithSearchVal(""))
 	s.Nil(err)
 	if s.NotNil(res) {
 		fmt.Println(res.ToJsonStringPretty())
 	}
 }
 
-func TestSuiteProject(t *testing.T) {
-	suite.Run(t, new(SuiteTestProject))
+func TestSuiteTenant(t *testing.T) {
+	suite.Run(t, new(SuiteTestTenant))
 }

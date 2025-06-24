@@ -1,4 +1,4 @@
-package v2
+package v3
 
 import (
 	"context"
@@ -11,26 +11,26 @@ import (
 	"github.com/imroc/req/v3"
 )
 
-type WarningGroup struct {
+type Tenant struct {
 	httpclient *req.Client
 	config     *config.Config
 }
 
-func NewWG(c *config.Config) *WarningGroup {
-	return &WarningGroup{
+func NewTenant(c *config.Config) *Tenant {
+	return &Tenant{
 		httpclient: c.Httpclient,
 		config:     c,
 	}
 }
 
-func (w *WarningGroup) List(ctx context.Context, opts ...option.ListOptionFunc) (resp *types.WarningGroupList, err error) {
+func (t *Tenant) List(ctx context.Context, opts ...option.ListOptionFunc) (resp *types.TenantList, err error) {
 	option := make(types.ListOption)
 	for _, opt := range opts {
 		opt(&option)
 	}
-	var res *types.ListWarningGroupResponse
-	if err = w.httpclient.Get("/alert-groups").
-		SetHeader("token", w.config.AdminToken).
+	var res *types.ListTenantResponse
+	if err = t.httpclient.Get("/tenants").
+		SetHeader("token", t.config.AdminToken).
 		SetQueryParams(option).
 		SetSuccessResult(&res).Do(ctx).Err; err != nil {
 		return

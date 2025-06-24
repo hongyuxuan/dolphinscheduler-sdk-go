@@ -1,23 +1,21 @@
-package v2
+package types
 
 import (
 	"encoding/json"
-
-	types "github.com/hongyuxuan/dolphinscheduler-sdk-go/types"
 )
 
 type WarningGroup struct {
-	Id               int64  `json:"id"`
-	GroupName        string `json:"groupName"`
-	AlertInstanceIds string `json:"alertInstanceIds"`
-	Description      string `json:"description"`
-	CreateTime       string `json:"createTime"`
-	UpdateTime       string `json:"updateTime"`
-	CreateUserId     int64  `json:"createUserId"`
+	Id               int64   `json:"id"`
+	GroupName        string  `json:"groupName"`
+	AlertInstanceIds *string `json:"alertInstanceIds"`
+	Description      string  `json:"description"`
+	CreateTime       string  `json:"createTime"`
+	UpdateTime       string  `json:"updateTime"`
+	CreateUserId     int64   `json:"createUserId"`
 }
 
 type ListWarningGroupResponse struct {
-	types.CommonResponse
+	CommonResponse
 	Data WarningGroupList `json:"data"`
 }
 

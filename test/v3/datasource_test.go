@@ -1,4 +1,4 @@
-package test_v2
+package main
 
 import (
 	"context"
@@ -10,26 +10,26 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-type SuiteTestResource struct {
+type SuiteTestDatasource struct {
 	suite.Suite
 	client *ds.ClientV2
 }
 
-func (s *SuiteTestResource) SetupSuite() {
+func (s *SuiteTestDatasource) SetupSuite() {
 	s.client = ds.NewClientV2(
 		// option.WithDebug(true),
 		option.WithBaseUrl("http://<dolphinscheduler_host>/dolphinscheduler"),
 		option.WithToken("<your_token>"))
 }
 
-func (s *SuiteTestResource) TestListResourceFile() {
-	res, err := s.client.Resource().ListFile(context.Background())
+func (s *SuiteTestDatasource) TestListDatasource() {
+	res, err := s.client.Datasource().List(context.Background(), option.WithPageNo(1), option.WithPageSize(10))
 	s.Nil(err)
 	if s.NotNil(res) {
 		fmt.Println(res.ToJsonStringPretty())
 	}
 }
 
-func TestSuiteResource(t *testing.T) {
-	suite.Run(t, new(SuiteTestResource))
+func TestSuiteDatasource(t *testing.T) {
+	suite.Run(t, new(SuiteTestDatasource))
 }

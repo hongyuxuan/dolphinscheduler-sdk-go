@@ -1,4 +1,4 @@
-package main
+package test_v2
 
 import (
 	"context"
@@ -27,18 +27,19 @@ type SuiteTestProcessDefinition struct {
 
 func (s *SuiteTestProcessDefinition) SetupSuite() {
 	s.client = ds.NewClientV2(
-		// option.WithDebug(true),
+		option.WithDebug(false),
 		option.WithBaseUrl("http://<dolphinscheduler_host>/dolphinscheduler"),
-		option.WithToken("02b778c57e9a542fd6cd882ae72f6ede"),
-		option.WithAdminToken("d68b531072fc6a69c0bb5f4799d63f73"))
-	s.filepath = "/root/workflow.json"
-	s.projectCode = 10512140106432
+		option.WithToken("<your_token>"),
+		option.WithAdminToken("<your_admin_token>"))
+	s.filepath = "./unit-test.json"
+	s.projectCode = 10457530170432
 	s.tenantMap = make(map[int64]string)
 }
 
 func (s *SuiteTestProcessDefinition) Test1ParseJsonFile() {
 	var err error
 	s.exportProcessDef, err = s.client.Project(nil).ProcessDefinition(nil).ParseJsonFile(s.filepath)
+	fmt.Println(s.exportProcessDef.ToJsonStringPretty())
 	s.Nil(err)
 }
 
@@ -149,13 +150,19 @@ func (s *SuiteTestProcessDefinition) Test5DeleteProcessDefinition() {
 		s.Nil(err)
 		if s.NotNil(res) {
 			// delete
-			// fmt.Printf("%s will be delete\n", def.ProcessDefinition.Name)
-			// err = s.client.Project(&s.projectCode).
-			// 	ProcessDefinition(&res.ProcessDefinition.Code).
-			// 	Delete(context.Background())
-			// s.Nil(err)
+			fmt.Printf("%s will be delete\n", def.ProcessDefinition.Name)
+			err = s.client.Project(&s.projectCode).
+				ProcessDefinition(&res.ProcessDefinition.Code).
+				Delete(context.Background())
+			s.Nil(err)
 		}
 	}
+}
+
+func (s *SuiteTestProcessDefinition) Test6Export() {
+	var projectCode int64 = 10457530170432
+	_, err := s.client.Project(&projectCode).ProcessDefinition(nil).BatchExport(context.Background(), "10667823969280,10745949663616")
+	s.Nil(err)
 }
 
 func TestSuiteProcessDefinition(t *testing.T) {

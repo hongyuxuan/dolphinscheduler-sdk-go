@@ -1,9 +1,7 @@
-package v2
+package types
 
 import (
 	"encoding/json"
-
-	types "github.com/hongyuxuan/dolphinscheduler-sdk-go/types"
 )
 
 type Environment struct {
@@ -19,7 +17,7 @@ type Environment struct {
 }
 
 type ListEnvironmentResponse struct {
-	types.CommonResponse
+	CommonResponse
 	Data EnvironmentList `json:"data"`
 }
 

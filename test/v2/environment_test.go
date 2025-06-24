@@ -1,4 +1,4 @@
-package main
+package test_v2
 
 import (
 	"context"
@@ -7,21 +7,30 @@ import (
 
 	ds "github.com/hongyuxuan/dolphinscheduler-sdk-go"
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/core/option"
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 )
 
-func init() {
-	client = ds.NewClientV2(
-		// option.WithDebug(true),
-		option.WithBaseUrl("http://<dolphinscheduler_host>/dolphinscheduler"),
-		option.WithToken("365adefd2fac542d43cfde4103f52cdd"),
-		option.WithAdminToken("d7a4f25936bc25f24afe21705ecba337"))
+type SuiteTestEnvironment struct {
+	suite.Suite
+	client *ds.ClientV2
 }
 
-func TestListEnvironment(t *testing.T) {
-	res, err := client.Environment().List(context.Background(), option.WithPageNo(1), option.WithPageSize(10))
-	assert.Nil(t, err)
-	if assert.NotNil(t, res) {
+func (s *SuiteTestEnvironment) SetupSuite() {
+	s.client = ds.NewClientV2(
+		option.WithDebug(false),
+		option.WithBaseUrl("http://<dolphinscheduler_host>/dolphinscheduler"),
+		option.WithToken("<your_token>"),
+		option.WithAdminToken("<your_admin_token>"))
+}
+
+func (s *SuiteTestEnvironment) Test1ListEnvironment() {
+	res, err := s.client.Environment().List(context.Background(), option.WithPageNo(1), option.WithPageSize(10))
+	s.Nil(err)
+	if s.NotNil(res) {
 		fmt.Println(res.ToJsonStringPretty())
 	}
+}
+
+func TestSuiteEnvironment(t *testing.T) {
+	suite.Run(t, new(SuiteTestEnvironment))
 }
