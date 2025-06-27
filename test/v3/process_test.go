@@ -1,4 +1,4 @@
-package main
+package test_v3
 
 import (
 	"context"
@@ -11,6 +11,7 @@ import (
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/core/constant"
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/core/errorx"
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/core/option"
+	instanceoption "github.com/hongyuxuan/dolphinscheduler-sdk-go/core/option/instance"
 	typesv3 "github.com/hongyuxuan/dolphinscheduler-sdk-go/types/v3"
 	"github.com/stretchr/testify/suite"
 )
@@ -121,6 +122,31 @@ func (s *SuiteTestProcessDefinition) Test4Export() {
 	res, err := s.client.Project(&s.projectCode).ProcessDefinition(nil).BatchExport(context.Background(), "129855618575584")
 	s.Nil(err)
 	fmt.Println(string(res))
+}
+
+func (s *SuiteTestProcessDefinition) Test6StartInstance() {
+	var processCode int64 = 129136590590176
+
+	err := s.client.Project(&s.projectCode).ProcessDefinition(nil).
+		StartInstance(
+			context.Background(),
+			instanceoption.WithProcessDefinitionCode(processCode),
+			instanceoption.WithScheduleTime(""),
+			instanceoption.WithFailureStrategy("END"),
+			instanceoption.WithWarningType("NONE"),
+			instanceoption.WithWarningGroupId(0),
+			instanceoption.WithExecType(""),
+			instanceoption.WithStartNodeList(""),
+			instanceoption.WithTaskDependType("TASK_POST"),
+			instanceoption.WithRunMode("RUN_MODE_SERIAL"),
+			instanceoption.WithInstancePriority("MEDIUM"),
+			instanceoption.WithWorkerGroup("default"),
+			instanceoption.WithTenantCode("default"),
+			instanceoption.WithEnvironmentCode("123636042396032"),
+			instanceoption.WithStartParams(""),
+			instanceoption.WithParallelism(""),
+			instanceoption.WithDryRun("0"))
+	s.Nil(err)
 }
 
 func TestSuiteProcessDefinition(t *testing.T) {

@@ -1,4 +1,4 @@
-package main
+package test_v3
 
 import (
 	"context"
@@ -39,7 +39,7 @@ func (s *SuiteTestResource) Test2ViewAndModifyResourceFile() {
 		context.Background(),
 		resourceoption.WithFullName(s.resourceName),
 		resourceoption.WithLimit(1000),
-		resourceoption.WithTenantCode("test-tenant"),
+		resourceoption.WithTenantCode("default"),
 	)
 	s.Nil(err)
 	if s.NotNil(res) {
@@ -52,7 +52,7 @@ func (s *SuiteTestResource) Test2ViewAndModifyResourceFile() {
 		context.Background(),
 		resourceoption.WithFullName(s.resourceName),
 		resourceoption.WithContent(res.Content),
-		resourceoption.WithTenantCode("test-tenant"),
+		resourceoption.WithTenantCode("default"),
 	)
 	s.Nil(err)
 }

@@ -20,3 +20,7 @@ type CommonResponse struct {
 type ProcessDefinitionOption map[string]string
 
 type ResourceOption map[string]string
+
+type StartInstanceOption map[string]string
+
+type InstanceListOption map[string]string

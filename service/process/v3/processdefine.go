@@ -10,7 +10,8 @@ import (
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/config"
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/core/constant"
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/core/errorx"
-	"github.com/hongyuxuan/dolphinscheduler-sdk-go/core/option"
+	option "github.com/hongyuxuan/dolphinscheduler-sdk-go/core/option"
+	instanceoption "github.com/hongyuxuan/dolphinscheduler-sdk-go/core/option/instance"
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/types"
 	typesv3 "github.com/hongyuxuan/dolphinscheduler-sdk-go/types/v3"
 	"github.com/imroc/req/v3"
@@ -174,5 +175,22 @@ func (p *ProcessDefinition) BatchExport(ctx context.Context, codes string) (resp
 		return
 	}
 	resp, _ = json.Marshal(r)
+	return
+}
+
+func (p *ProcessDefinition) StartInstance(ctx context.Context, opts ...instanceoption.StartInstanceOptionFunc) (err error) {
+	option := make(types.StartInstanceOption)
+	for _, opt := range opts {
+		opt(&option)
+	}
+	var res *types.CommonResponse
+	if err = p.httpclient.Post(fmt.Sprintf("/projects/%d/executors/start-process-instance", *p.projectCode)).
+		SetFormData(option).
+		SetSuccessResult(&res).Do(ctx).Err; err != nil {
+		return
+	}
+	if res.Code != constant.ERR_OK {
+		return errorx.NewError(res.Code, res.Msg, nil)
+	}
 	return
 }

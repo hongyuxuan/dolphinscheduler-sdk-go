@@ -45,6 +45,6 @@ func (p *Project) ProcessDefinition(processCode *int64) *processv2.ProcessDefini
 	return processv2.NewProcessDefinition(p.config, p.projectCode, processCode)
 }
 
-func (p *Project) ProcessInstance(processCode *int64) *processv2.ProcessInstance {
-	return processv2.NewProcessInstance(p.config, p.projectCode, processCode)
+func (p *Project) ProcessInstance(processCode, instanceId *int64) *processv2.ProcessInstance {
+	return processv2.NewProcessInstance(p.config, p.projectCode, processCode, instanceId)
 }

@@ -12,6 +12,7 @@ import (
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/core/constant"
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/core/errorx"
 	"github.com/hongyuxuan/dolphinscheduler-sdk-go/core/option"
+	instanceoption "github.com/hongyuxuan/dolphinscheduler-sdk-go/core/option/instance"
 	typesv2 "github.com/hongyuxuan/dolphinscheduler-sdk-go/types/v2"
 	"github.com/stretchr/testify/suite"
 )
@@ -27,7 +28,7 @@ type SuiteTestProcessDefinition struct {
 
 func (s *SuiteTestProcessDefinition) SetupSuite() {
 	s.client = ds.NewClientV2(
-		option.WithDebug(false),
+		option.WithDebug(true),
 		option.WithBaseUrl("http://<dolphinscheduler_host>/dolphinscheduler"),
 		option.WithToken("<your_token>"),
 		option.WithAdminToken("<your_admin_token>"))
@@ -162,6 +163,30 @@ func (s *SuiteTestProcessDefinition) Test5DeleteProcessDefinition() {
 func (s *SuiteTestProcessDefinition) Test6Export() {
 	var projectCode int64 = 10457530170432
 	_, err := s.client.Project(&projectCode).ProcessDefinition(nil).BatchExport(context.Background(), "10667823969280,10745949663616")
+	s.Nil(err)
+}
+
+func (s *SuiteTestProcessDefinition) Test6StartInstance() {
+	var processCode int64 = 10777374199936
+
+	err := s.client.Project(&s.projectCode).ProcessDefinition(nil).
+		StartInstance(
+			context.Background(),
+			instanceoption.WithProcessDefinitionCode(processCode),
+			instanceoption.WithScheduleTime(""),
+			instanceoption.WithFailureStrategy("END"),
+			instanceoption.WithWarningType("NONE"),
+			instanceoption.WithWarningGroupId(0),
+			instanceoption.WithExecType(""),
+			instanceoption.WithStartNodeList(""),
+			instanceoption.WithTaskDependType("TASK_POST"),
+			instanceoption.WithRunMode("RUN_MODE_SERIAL"),
+			instanceoption.WithInstancePriority("MEDIUM"),
+			instanceoption.WithWorkerGroup("default"),
+			instanceoption.WithEnvironmentCode(""),
+			instanceoption.WithStartParams("{\"artifact_url\":\"\""),
+			instanceoption.WithParallelism(""),
+			instanceoption.WithDryRun("0"))
 	s.Nil(err)
 }
 
